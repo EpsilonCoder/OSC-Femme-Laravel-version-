@@ -51,17 +51,18 @@
 
     <aside class="relative bg-sidebar h-screen w-64 hidden sm:block shadow-xl">
         <div class="p-6">
-            <a href="index.html" class="text-white text-3xl font-semibold uppercase hover:text-gray-200">Femme</a>
-            <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                <i class="fas fa-plus mr-3"></i> Nouveau
-            </button>
+            <a href="{{ url('/contact/create') }}" class="text-white text-3xl font-semibold uppercase hover:text-gray-200">Femme
+                <button class="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                    <i class="fas fa-plus mr-3"></i> Nouveau
+                </button>
+            </a>
         </div>
         <nav class="text-white text-base font-semibold pt-3">
             <a href="{{ url('/contact/create') }}" class="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
                 <i class="fas fa-tachometer-alt mr-3"></i>
                 Ajouter partenaire
             </a>
-            <a href="statistique.blade.php" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+            <a href="tables.html" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
                 <i class="fas fa-table mr-3"></i>
                 Liste des statistiques
             </a>
@@ -146,49 +147,30 @@
             <main class="w-full flex-grow p-6">
                 <h1 class="text-3xl text-black pb-6">Statistique</h1>
 
-
-
-                <div class="w-full mt-12">
-                    <p class="text-xl pb-3 flex items-center">
-                        <i class="fas fa-list mr-3"></i> Latest Reports
-                    </p>
-                    <div class="bg-white overflow-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-800 text-white">
-                                <tr>
-                                    <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Nom</th>
-                                    <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Addresse</th>
-                                    <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Email</th>
-                                    <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Telephone</th>
-                                    <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Actions</th>
-
-                                </tr>
-                            </thead>
-                            <tbody class="text-gray-700">
-                                @foreach($contacts as $item)
-                                <tr>
-                                    <td class="w-1/3 text-left py-3 px-4">{{ $loop->iteration }}</td>
-                                    <td class="w-1/3 text-left py-3 px-4">{{ $item->name }}</td>
-                                    <td class="text-left py-3 px-4">{{ $item->address}}</td>
-                                    <td class="text-left py-3 px-4">{{ $item->mobile}}</td>
-                                    <td class="text-left py-3 px-4">
-                                        <a href="{{ url('/contact/' . $item->id) }}" title="View Student"><button class="btn btn-info"> View</button></a>
-                                        <a href="{{ url('/contact/' . $item->id . '/edit') }}" title="Edit Student"><button class="btn btn-info"> Edit</button></a>
-                                        <form method="POST" action="{{ url('/contact' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-info" title="Delete Contact" onclick="return confirm(&quot;Confirm delete?&quot;)"> Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                <div class="flex flex-wrap mt-6">
+                    <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
+                        <p class="text-xl pb-3 flex items-center">
+                            <i class="fas fa-plus mr-3"></i> Monthly Reports
+                        </p>
+                        <div class="p-6 bg-white">
+                            <canvas id="chartOne" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
+                        <p class="text-xl pb-3 flex items-center">
+                            <i class="fas fa-check mr-3"></i> Resolved Reports
+                        </p>
+                        <div class="p-6 bg-white">
+                            <canvas id="chartTwo" width="400" height="200"></canvas>
+                        </div>
                     </div>
                 </div>
+
+
             </main>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
